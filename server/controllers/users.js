@@ -8,9 +8,12 @@ module.exports = {
   }, // a function which handles a get request for all messages
 
   post: function (req, res) {
-    req.on('data', (data) => {
-      var username = JSON.parse(data.username);
-    });
-    models.users.create(parsedMessage.username);
+    console.log('this is the request in users:' , req.body);
+    var username = req.body.username;
+    // req.on('body', (data) => {
+    //   console.log('DATA in request:', data);
+    //   var parsedUsername = JSON.parse(data.username);
+    // });
+    models.users.create(username);
   } // a function which handles posting a message to the database
 };

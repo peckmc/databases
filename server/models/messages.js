@@ -6,10 +6,10 @@ module.exports = {
       'SELECT * FROM `messages`',
       function(err, results, fields) {
         if (err) {
-          console.log('getAll Error:', err);
+          console.log('getAll messages Error:', err);
         }
-        console.log(results);
-        console.log(fields);
+        // console.log(results);
+        // console.log(fields);
       }
     );
   }, // a function which produces all the messages
@@ -27,7 +27,7 @@ module.exports = {
       [text, user_id ,roomname],
       function(err, results) {
         if(err) {
-          console.log('create error:', err);
+          console.log('create messages error:', err);
         }
         console.log(results);
       }

@@ -21,7 +21,7 @@ module.exports = {
       [name],
       function(err, results) {
         if(err) {
-          console.log(err);
+          console.log('create user error:', err);
         }
         console.log(results);
       }
