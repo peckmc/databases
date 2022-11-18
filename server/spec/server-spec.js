@@ -8,15 +8,20 @@ const API_URL = 'http://127.0.0.1:3000/classes';
 
 describe('Persistent Node Chat Server', () => {
   const dbConnection = mysql.createConnection({
+<<<<<<< HEAD
     user: 'student',
     password: 'student',
+=======
+    host: 'localhost',
+    user: 'root',
+>>>>>>> 910da91db747fdf787109e26538474c822ee1962
     database: 'chat',
   });
 
   beforeAll((done) => {
     dbConnection.connect();
 
-       const tablename = 'messages'; // TODO: fill this out
+    const tablename = 'messages'; // TODO: fill this out
 
     /* Empty the db table before all tests so that multiple tests
      * (or repeated runs of the tests)  will not fail when they should be passing
@@ -36,9 +41,11 @@ describe('Persistent Node Chat Server', () => {
     axios.post(`${API_URL}/users`, { username })
       .then(() => {
         // Post a message to the node chat server:
+        //console.log('testing part 1');
         return axios.post(`${API_URL}/messages`, { username, message, roomname });
       })
       .then(() => {
+        //console.log('testing part 2');
         // Now if we look in the database, we should find the posted message there.
 
         /* TODO: You might have to change this test to get all the data from
@@ -48,8 +55,10 @@ describe('Persistent Node Chat Server', () => {
 
         dbConnection.query(queryString, queryArgs, (err, results) => {
           if (err) {
+            console.log('error in test');
             throw err;
           }
+          //console.log('results are here', results);
           // Should have one result:
           expect(results.length).toEqual(1);
           console.log(results);

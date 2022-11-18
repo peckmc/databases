@@ -12,10 +12,10 @@ module.exports = {
         console.log(fields);
       }
     );
+    //db.connection.end();
   }, // a function which produces all the messages
 
   create: (name) => {
-
     db.connection.query(
       'INSERT INTO users(name) VALUES (?)',
       [name],
@@ -26,5 +26,6 @@ module.exports = {
         console.log(results);
       }
     );
+    //db.connection.end();
   }// a function which can be used to insert a message into the database
 };
