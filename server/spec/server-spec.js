@@ -8,8 +8,8 @@ const API_URL = 'http://127.0.0.1:3000/classes';
 
 describe('Persistent Node Chat Server', () => {
   const dbConnection = mysql.createConnection({
-    user: 'root',
-    password: 'jnp166',
+    user: 'student',
+    password: 'student',
     database: 'chat',
   });
 
@@ -52,6 +52,7 @@ describe('Persistent Node Chat Server', () => {
           }
           // Should have one result:
           expect(results.length).toEqual(1);
+          console.log(results);
 
           // TODO: If you don't have a column named text, change this test.
           expect(results[0].text).toEqual(message);

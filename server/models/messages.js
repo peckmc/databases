@@ -2,7 +2,7 @@ var db = require('../db');
 
 module.exports = {
   getAll: () => {
-    db.conection.query(
+    db.connection.query(
       'SELECT * FROM `messages`',
       function(err, results, fields) {
         if (err) {
