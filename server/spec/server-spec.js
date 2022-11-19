@@ -13,6 +13,7 @@ describe('Persistent Node Chat Server', () => {
     database: 'chat',
   });
 
+
   beforeAll((done) => {
     dbConnection.connect();
 
