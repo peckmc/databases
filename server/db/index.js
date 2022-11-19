@@ -11,17 +11,25 @@ var mysql = require('mysql2');
 // user: 'root', password: 'some_password_you_created_at_install'
 
 
-var connection = mysql.createConnection({
+// var connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   // password: 'jnp166',
+//   database: 'chat'
+// });
+
+// connection.connect(function(err) {
+//   if (err) {
+//     console.log('error creating connection:', err);
+//   }
+// });
+
+
+var Sequelize = require('sequelize');
+var db = new Sequelize('chat', 'root', '', {
   host: 'localhost',
-  user: 'root',
-  // password: 'jnp166',
-  database: 'chat'
+  dialect: 'mysql',
 });
 
-connection.connect(function(err) {
-  if (err) {
-    console.log('error creating connection:', err);
-  }
-});
-
-module.exports.connection = connection;
+// module.exports.connection = connection;
+module.exports.db = db;

@@ -1,69 +1,66 @@
 var db = require('../db');
+var Sequelize = require('sequelize');
+
+/* TODO this constructor takes the database name, username, then password.
+ * Modify the arguments if you need to */
+
+/* first define the data structure by giving property names and datatypes
+ * See http://sequelizejs.com for other datatypes you can use besides STRING. */
+
+var Message = db.db.define('Message', {
+  user_id: Sequelize.INTEGER,
+  text: Sequelize.STRING,
+  roomname: Sequelize.STRING
+});
+
+var User = db.db.define('User', {
+  name: {
+    type: Sequelize.STRING,
+    unique: true
+  }
+});
 
 module.exports = {
-  getAll: () => {
-    var messages;
-    console.log('beginning to query');
-    db.connnection.query(
-      'SELECT * FROM `messages`',
-      function(err, results, fields) {
-        if (err) {
-          console.log('getAll messages Error:', err);
-        } else {
-          console.log('got all');
-          messages = results;
-          console.log(messages);
-          return messages;
-        }
-      }
-    );
-
-  }, // a function which produces all the messages
-
+  getAll: (callback) => {
+    Message.sync()
+      .then(function() {
+        return Message.findAll({
+          order: [['id', 'DESC']]
+        });
+      })
+      .then(function(messages) {
+        callback(messages);
+        //db.db.close();
+      })
+      .catch(function(err) {
+        // Handle any error in the chain
+        console.error(err);
+        //db.db.close();
+      });
+  },
 
   create: (username, text, roomname) => {
-    var userId;
-
-    db.connection.query(
-      'INSERT INTO messages(text, user_id, roomname) SELECT ? AS text, id AS user_id, ? AS roomname FROM `users` WHERE `name` = ?',
-      [text, roomname, username],
-      function(err, results) {
-        if (err) {
-          console.log('create messages error:', err);
-        } else {
-          // userId = results[0].id;
-          // console.log('here are the results', results);
-          // console.log('here are the results for create', results);
-          // console.log('here is the userid', userId);
-        }
+    Message.sync()
+      .then(function() {
+        return User.findAll({
+          attributes: ['id'],
+          where: {
+            name: username
+          }
+        });
+      })
+      .then(function(user) {
+        Message.create( { user_id: user.id, text: text, roomname: roomname });
+        //db.db.close();
+      })
+      .catch(function(err) {
+        // Handle any error in the chain
+        console.error(err);
+        //db.db.close();
       });
 
-    // db.connection.promise().query('SELECT id FROM `users` WHERE `name` = ?', [username],
-    //   function(err, results) {
-    //     if (err) {
-    //       console.log('error with getting user', err);
-    //     } else {
-    //       userId = results[0].id;
-    //       console.log('here are the results for create', results);
-    //       console.log('here is the userid', userId);
-    //     }
-    //   }).then( () => {
-    //   db.connection.query(
-    //     'INSERT INTO messages(text, user_id, roomname) VALUES (?,?,?)',
-    //     [text, userId, roomname],
-    //     function(err, results) {
-    //       if (err) {
-    //         console.log('create messages error:', err);
-    //       } else {
-    //         console.log(results);
-    //       }
-    //     }
-    //   );
-    // });
-
-    console.log('here is the userid async', userId);
+  }
 
 
-
-  }// a function which can be used to insert a message into the database
+  // a function which can be used to insert a message into the database
 };
