@@ -1,15 +1,16 @@
 var db = require('../db');
 
 module.exports = {
-  getAll: () => {
+  getAll: (callback) => {
     db.connection.query(
-      'SELECT * FROM `users`',
+      'SELECT * FROM `users` ORDER BY id DESC',
       function(err, results, fields) {
         if(err) {
           console.log('getAll users error:', err);
         }
-        console.log(results);
-        console.log(fields);
+        callback(JSON.stringify(results));
+        //console.log(results);
+        //console.log(fields);
       }
     );
     //db.connection.end();
@@ -23,7 +24,7 @@ module.exports = {
         if(err) {
           console.log('create user error:', err);
         }
-        console.log(results);
+        //console.log(results);
       }
     );
     //db.connection.end();

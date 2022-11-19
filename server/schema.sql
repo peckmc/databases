@@ -6,7 +6,7 @@ USE chat;
 /* Create other tables and define schemas for them here! */
 CREATE TABLE users (
   id INT AUTO_INCREMENT,
-  name CHAR(50) NOT NULL,
+  name CHAR(50) NOT NULL UNIQUE,
   PRIMARY KEY (id)
 );
 
